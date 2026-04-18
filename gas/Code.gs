@@ -12,7 +12,7 @@
  *  6. デプロイURLをコピーして reservation.js の GAS_ENDPOINT に貼り付ける
  */
 
-const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID';   // ← スプレッドシートIDに変更
+const SPREADSHEET_ID = '1bDe5z4KM1fbcyvx0tWa3Jj_pU8JuyTLtcjfxQujNZAc';
 const SHEET_NAME     = 'reservations';
 const ADMIN_TOKEN    = 'rosso-admin-2024';       // ← admin.js と同じ値に変更
 
