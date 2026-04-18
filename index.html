@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROSSO | 緑と余白のプライベートサロン</title>
+    <meta name="description" content="名張市桔梗が丘のプライベート美容室ROSSO（ロッソ）。緑と余白をテーマにした落ち着いた空間で、30代からの髪の悩みに寄り添います。カット、カラー、本格ヘッドスパなど。オンライン予約受付中。">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;600&family=Zen+Maru+Gothic:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ハンバーガーボタン -->
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+    </button>
+
+    <!-- ナビゲーションオーバーレイ -->
+    <nav class="nav-overlay" id="navOverlay" aria-hidden="true">
+        <ul class="nav-list">
+            <li><a href="#concept">Concept</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#access">Access</a></li>
+            <li><a href="reservation.html">Reservation</a></li>
+        </ul>
+    </nav>
+
+    <!-- ヘッダー -->
+    <header>
+        <a href="index.html" class="logo-text">ROSSO</a>
+    </header>
+
+    <!-- ヒーロー -->
+    <section class="hero" aria-label="メインビジュアル">
+        <div class="hero-slider">
+            <img src="images/hero1.jpg" alt="サロン内観" class="hero-img active">
+            <img src="images/hero2.jpg" alt="ヘアスタイル" class="hero-img">
+            <img src="images/hero3.jpg" alt="ヘッドスパ" class="hero-img">
+        </div>
+        <div class="hero-message">
+            <div class="hero-box fade-up">
+                <h2>緑と余白に包まれた<br>プライベートな時間を。</h2>
+            </div>
+        </div>
+    </section>
+
+    <!-- コンセプト -->
+    <section id="concept">
+        <div class="wrapper">
+            <div class="section-header fade-up">
+                <span class="en-title">Concept</span>
+                <span class="jp-title">コンセプト</span>
+            </div>
+            <div class="concept-layout fade-up">
+                <img src="images/concept.jpg" alt="サロンのコンセプト" class="concept-img">
+                <div class="concept-text">
+                    <p>名張市桔梗が丘にある、完全プライベートの美容室です。</p>
+                    <p><span class="highlight">緑と余白</span>をテーマにした静かな空間で、30代からの髪の悩みにじっくり向き合います。</p>
+                    <p>トレンドよりも、あなたの髪質・ライフスタイルに合ったスタイルを大切に提案します。</p>
+                    <p>ゆっくりと、あなただけの時間を。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- メニュー -->
+    <section id="menu" style="background-color: #f7f5f0;">
+        <div class="wrapper">
+            <div class="section-header fade-up">
+                <span class="en-title">Menu</span>
+                <span class="jp-title">メニュー・料金</span>
+            </div>
+            <img src="images/menu-top.jpg" alt="サロンメニュー" class="menu-top-image fade-up">
+            <div class="accordion-wrapper">
+
+                <div class="accordion-item fade-up">
+                    <div class="accordion-header">
+                        <span class="cat-title">Cut <span class="cat-sub">カット</span></span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="menu-list">
+                            <li class="menu-item">
+                                <span class="item-name">カット</span>
+                                <span class="item-dots"></span>
+                                <span class="item-price">¥5,500〜</span>
+                            </li>
+                            <li class="menu-item">
+                                <span class="item-name">カット＋シャンプー・ブロー</span>
+                                <span class="item-dots"></span>
+                                <span class="item-price">¥7,700〜</span>
+                            </li>
+                        </ul>
+                        <span class="menu-note">※価格はすべて税込です</span>
+                    </div>
+                </div>
+
+                <div class="accordion-item fade-up">
+                    <div class="accordion-header">
+                        <span class="cat-title">Color <span class="cat-sub">カラー</span></span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="menu-list">
+                            <li class="menu-item">
+                                <span class="item-name">リタッチカラー</span>
+                                <span class="item-dots"></span>
+                                <span class="item-price">¥8,800〜</span>
+                            </li>
+                            <li class="menu-item">
+                                <span class="item-name">フルカラー</span>
+                                <span class="item-dots"></span>
+                                <span class="item-price">¥11,000〜</span>
+                            </li>
+                            <li class="menu-item">
+                                <span class="item-name">ハイライト</span>
+                                <span class="item-dots"></span>
+                                <span class="item-price">¥15,400〜</span>
+                            </li>
+                        </ul>
+                        <span class="menu-note">※価格はすべて税込です</span>
+                    </div>
+                </div>
+
+                <div class="accordion-item fade-up">
+                    <div class="accordion-header">
+                        <span class="cat-title">Perm <span class="cat-sub">パーマ</span></span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="menu-list">
+                            <li class="menu-item">
+                                <span class="item-name">デジタルパーマ</span>
+                                <span class="item-dots"></span>
+                                <span class="item-price">¥16,500〜</span>
+                            </li>
+                            <li class="menu-item">
+                                <span class="item-name">コールドパーマ</span>
+                                <span class="item-dots"></span>
+                                <span class="item-price">¥13,200〜</span>
+                            </li>
+                        </ul>
+                        <span class="menu-note">※価格はすべて税込です</span>
+                    </div>
+                </div>
+
+                <div class="accordion-item fade-up">
+                    <div class="accordion-header">
+                        <span class="cat-title">Head Spa <span class="cat-sub">ヘッドスパ</span></span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="menu-list">
+                            <li class="menu-item">
+                                <span class="item-name">本格ヘッドスパ 30分</span>
+                                <span class="item-dots"></span>
+                                <span class="item-price">¥6,600</span>
+                            </li>
+                            <li class="menu-item">
+                                <span class="item-name">本格ヘッドスパ 60分</span>
+                                <span class="item-dots"></span>
+                                <span class="item-price">¥11,000</span>
+                            </li>
+                        </ul>
+                        <span class="menu-note">※価格はすべて税込です</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- アクセス -->
+    <section id="access">
+        <div class="wrapper">
+            <div class="section-header fade-up">
+                <span class="en-title">Access</span>
+                <span class="jp-title">アクセス</span>
+            </div>
+            <div class="access-container fade-up">
+                <div class="access-map-wrapper">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.0!2d136.1!3d34.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDM2JzAwLjAiTiAxMzbCsDA2JzAwLjAiRQ!5e0!3m2!1sja!2sjp!4v1234567890"
+                        title="ROSSOの地図"
+                        allowfullscreen
+                        loading="lazy">
+                    </iframe>
+                </div>
+                <div class="access-details-wrapper">
+                    <div class="access-row">
+                        <span class="access-label">住所</span>
+                        <span>三重県名張市桔梗が丘〇〇〇</span>
+                    </div>
+                    <div class="access-row">
+                        <span class="access-label">営業時間</span>
+                        <span>9:00〜18:00（最終受付 17:00）</span>
+                    </div>
+                    <div class="access-row">
+                        <span class="access-label">定休日</span>
+                        <span>日曜・月曜</span>
+                    </div>
+                    <div class="access-row">
+                        <span class="access-label">駐車場</span>
+                        <span>あり（2台）</span>
+                    </div>
+                    <div class="access-row">
+                        <span class="access-label">電話</span>
+                        <span><a href="tel:0000-00-0000">0000-00-0000</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 予約 -->
+    <section class="reservation-section" id="reservation">
+        <div class="bg-night"></div>
+        <div class="overlay"></div>
+        <div class="wrapper">
+            <div class="reserve-content-box fade-up">
+                <div class="section-header" style="margin-bottom: 40px;">
+                    <span class="en-title">Reservation</span>
+                    <span class="jp-title">ご予約</span>
+                </div>
+                <a href="reservation.html" class="main-line-btn btn-online">
+                    オンラインで予約する
+                </a>
+                <div class="divider-or">または</div>
+                <a href="https://line.me/YOUR_LINE_ID" class="main-line-btn btn-line" target="_blank" rel="noopener noreferrer">
+                    LINEで予約する
+                </a>
+                <div class="divider-or">または</div>
+                <a href="tel:0000-00-0000" class="tel-link">0000-00-0000</a>
+                <p class="tel-note">営業時間内（9:00〜18:00）にお気軽にどうぞ</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer>
+        <p>&copy; 2024 ROSSO. All rights reserved.</p>
+    </footer>
+
+    <!-- 下部固定ボタン -->
+    <a href="reservation.html" class="fixed-bottom-btn">オンライン予約はこちら</a>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

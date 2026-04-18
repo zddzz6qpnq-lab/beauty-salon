@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理画面 | ROSSO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;600&family=Zen+Maru+Gothic:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg:        #fdfcf9;
+            --text-main: #4a4843;
+            --text-sub:  #8c8b88;
+            --accent:    #9eb596;
+            --btn-bg:    #e4eff7;
+            --line-green:#06c755;
+            --font-h:    'Zen Old Mincho', serif;
+            --font-b:    'Zen Maru Gothic', sans-serif;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            font-family: var(--font-b);
+            background-color: #f3f1ec;
+            color: var(--text-main);
+            margin: 0; padding: 0;
+            line-height: 1.8;
+        }
+        a { color: var(--accent); text-decoration: none; }
+
+        /* ── 認証画面 ── */
+        #authSection {
+            display: none;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            background-color: #f3f1ec;
+        }
+        .auth-box {
+            background: #fff;
+            padding: 60px 50px;
+            border-radius: 8px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        .auth-box .logo {
+            font-family: var(--font-h);
+            font-size: 2rem;
+            letter-spacing: 0.3em;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .auth-box .subtitle {
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            margin-bottom: 40px;
+            display: block;
+        }
+        .auth-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e0dbd2;
+            border-radius: 4px;
+            font-family: var(--font-b);
+            font-size: 1rem;
+            margin-bottom: 16px;
+            letter-spacing: 0.1em;
+        }
+        .auth-input:focus { outline: none; border-color: var(--accent); }
+        .auth-btn {
+            width: 100%;
+            padding: 16px 0;
+            background-color: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-family: var(--font-h);
+            font-size: 1rem;
+            cursor: pointer;
+            letter-spacing: 0.15em;
+            transition: 0.2s;
+        }
+        .auth-btn:hover { opacity: 0.85; }
+        .auth-error {
+            display: none;
+            color: #c0634a;
+            font-size: 0.82rem;
+            margin-top: 12px;
+        }
+
+        /* ── ダッシュボード ── */
+        #dashboard { display: none; }
+
+        .admin-header {
+            background: #fff;
+            border-bottom: 1px solid #e8e4dc;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .admin-logo {
+            font-family: var(--font-h);
+            font-size: 1.2rem;
+            letter-spacing: 0.2em;
+            color: var(--text-main);
+        }
+        .admin-logo small {
+            font-family: var(--font-b);
+            font-size: 0.72rem;
+            color: var(--text-sub);
+            font-weight: normal;
+            margin-left: 12px;
+            letter-spacing: 0.05em;
+        }
+        .header-actions { display: flex; gap: 12px; align-items: center; }
+        .btn-sm {
+            padding: 7px 18px;
+            border-radius: 50px;
+            font-family: var(--font-b);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+            letter-spacing: 0.05em;
+        }
+        .btn-refresh {
+            background-color: var(--accent);
+            color: #fff;
+            border: none;
+        }
+        .btn-refresh:hover { opacity: 0.85; }
+        .btn-refresh:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-logout {
+            background: none;
+            border: 1px solid #d4d0c8;
+            color: var(--text-sub);
+        }
+        .btn-logout:hover { border-color: var(--text-sub); color: var(--text-main); }
+
+        .admin-main { padding: 32px; }
+
+        /* サマリーカード */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .summary-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 28px 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+        .summary-card .card-label {
+            font-size: 0.78rem;
+            color: var(--text-sub);
+            display: block;
+            margin-bottom: 8px;
+            letter-spacing: 0.1em;
+        }
+        .summary-card .card-value {
+            font-family: var(--font-h);
+            font-size: 2.4rem;
+            color: var(--text-main);
+            line-height: 1;
+        }
+        .summary-card .card-unit {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            margin-left: 4px;
+        }
+
+        /* フィルター */
+        .filter-bar {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px 24px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+        .filter-bar label {
+            font-size: 0.78rem;
+            color: var(--text-sub);
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+        .filter-input, .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #e0dbd2;
+            border-radius: 4px;
+            font-family: var(--font-b);
+            font-size: 0.85rem;
+            background: var(--bg);
+            color: var(--text-main);
+        }
+        .filter-input:focus, .filter-select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* ローディング */
+        #loadingIndicator {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: var(--text-sub);
+            font-size: 0.85rem;
+        }
+
+        /* テーブル */
+        .table-wrapper {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            min-width: 700px;
+        }
+        thead {
+            background-color: var(--btn-bg);
+        }
+        thead th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: normal;
+            font-size: 0.78rem;
+            color: var(--text-sub);
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+            border-bottom: 2px solid #d8e8d4;
+        }
+        tbody tr {
+            border-bottom: 1px solid #f0ede6;
+            transition: background-color 0.1s;
+        }
+        tbody tr:hover { background-color: #fdfcf9; }
+        tbody tr.row-past { opacity: 0.5; }
+        tbody td {
+            padding: 14px 16px;
+            vertical-align: top;
+        }
+        .td-date { white-space: nowrap; font-family: var(--font-h); font-size: 0.9rem; }
+        .td-time { font-size: 0.8rem; color: var(--text-sub); font-family: var(--font-b); }
+        .td-name { font-weight: bold; }
+        .td-notes { font-size: 0.82rem; color: var(--text-sub); max-width: 200px; }
+        .td-created { font-size: 0.75rem; color: var(--text-sub); white-space: nowrap; }
+        .menu-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            background-color: #f0ede6;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .admin-main { padding: 16px; }
+            .summary-cards { grid-template-columns: repeat(2, 1fr); }
+            .filter-bar { flex-direction: column; align-items: stretch; }
+            .auth-box { padding: 40px 24px; margin: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 認証画面 -->
+    <div id="authSection">
+        <div class="auth-box">
+            <span class="logo">ROSSO</span>
+            <span class="subtitle">管理者ログイン</span>
+            <form id="authForm">
+                <input
+                    class="auth-input"
+                    type="password"
+                    id="passwordInput"
+                    placeholder="パスワードを入力"
+                    autocomplete="current-password">
+                <button type="submit" class="auth-btn">ログイン</button>
+                <p class="auth-error" id="authError">パスワードが正しくありません。</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- ダッシュボード -->
+    <div id="dashboard">
+
+        <!-- ヘッダー -->
+        <header class="admin-header">
+            <div class="admin-logo">
+                ROSSO <small>予約管理</small>
+            </div>
+            <div class="header-actions">
+                <span id="loadingIndicator">読み込み中...</span>
+                <button class="btn-sm btn-refresh" id="refreshBtn">更新</button>
+                <button class="btn-sm btn-logout" id="logoutBtn">ログアウト</button>
+            </div>
+        </header>
+
+        <main class="admin-main">
+
+            <!-- サマリーカード -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <span class="card-label">総予約数</span>
+                    <span class="card-value" id="summaryTotal">—</span>
+                    <span class="card-unit">件</span>
+                </div>
+                <div class="summary-card">
+                    <span class="card-label">本日の予約</span>
+                    <span class="card-value" id="summaryToday">—</span>
+                    <span class="card-unit">件</span>
+                </div>
+                <div class="summary-card">
+                    <span class="card-label">今後の予約</span>
+                    <span class="card-value" id="summaryUpcoming">—</span>
+                    <span class="card-unit">件</span>
+                </div>
+            </div>
+
+            <!-- フィルター -->
+            <div class="filter-bar">
+                <label>日付で絞る</label>
+                <input class="filter-input" type="date" id="filterDate">
+                <label>メニュー</label>
+                <select class="filter-select" id="filterMenu">
+                    <option value="">すべて</option>
+                    <option value="カット">カット</option>
+                    <option value="カラー">カラー</option>
+                    <option value="パーマ">パーマ</option>
+                    <option value="ヘッドスパ">ヘッドスパ</option>
+                    <option value="カット＋カラー">カット＋カラー</option>
+                    <option value="カット＋パーマ">カット＋パーマ</option>
+                    <option value="その他">その他</option>
+                </select>
+                <label>名前検索</label>
+                <input class="filter-input" type="text" id="searchName" placeholder="お名前で検索">
+            </div>
+
+            <!-- 予約テーブル -->
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>日時</th>
+                            <th>お名前</th>
+                            <th>電話番号</th>
+                            <th>メニュー</th>
+                            <th>備考</th>
+                            <th>受付日時</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr>
+                            <td colspan="6" style="text-align:center;padding:40px;color:var(--text-sub);">
+                                読み込み中...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
