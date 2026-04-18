@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>オンライン予約 | ROSSO</title>
+    <meta name="description" content="ROSSO（ロッソ）のオンライン予約ページ。週表示カレンダーから空き時間を選んでご予約いただけます。">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;600&family=Zen+Maru+Gothic:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/reservation.css">
+</head>
+<body>
+
+    <!-- ハンバーガーボタン -->
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+    </button>
+
+    <!-- ナビゲーションオーバーレイ -->
+    <nav class="nav-overlay" id="navOverlay">
+        <ul class="nav-list">
+            <li><a href="index.html#concept">Concept</a></li>
+            <li><a href="index.html#menu">Menu</a></li>
+            <li><a href="index.html#access">Access</a></li>
+            <li><a href="reservation.html">Reservation</a></li>
+        </ul>
+    </nav>
+
+    <!-- ヘッダー -->
+    <header>
+        <a href="index.html" class="logo-text">ROSSO</a>
+    </header>
+
+    <!-- ページヘッダー -->
+    <div class="page-hero">
+        <h1>Reservation</h1>
+        <p>オンライン予約</p>
+    </div>
+
+    <!-- カレンダーセクション -->
+    <section class="calendar-section">
+        <div class="wrapper">
+            <div class="section-header fade-up">
+                <span class="en-title">Calendar</span>
+                <span class="jp-title">日時を選択</span>
+            </div>
+
+            <!-- 週ナビゲーション -->
+            <div class="week-nav fade-up">
+                <button class="week-nav-btn" id="prevWeekBtn">← 前の週</button>
+                <span class="week-label" id="weekLabel"></span>
+                <button class="week-nav-btn" id="nextWeekBtn">次の週 →</button>
+            </div>
+
+            <!-- カレンダーグリッド -->
+            <div class="calendar-scroll fade-up">
+                <div id="calendarGrid">
+                    <div class="calendar-loading">読み込み中...</div>
+                </div>
+            </div>
+
+            <!-- 凡例 -->
+            <div class="calendar-legend fade-up">
+                <span class="legend-item">
+                    <span class="legend-dot available"></span>空き
+                </span>
+                <span class="legend-item">
+                    <span class="legend-dot selected"></span>選択中
+                </span>
+                <span class="legend-item">
+                    <span class="legend-dot booked"></span>予約済
+                </span>
+            </div>
+
+            <!-- 注意書き -->
+            <p class="fade-up" style="text-align:center; font-size:0.82rem; color:var(--text-sub); margin-top:24px; line-height:2;">
+                定休日：月曜日　／　受付時間：9:00〜17:00（最終受付）<br>
+                ご予約は2時間前まで受け付けております。
+            </p>
+        </div>
+    </section>
+
+    <!-- 予約フォームセクション（スロット選択後に表示） -->
+    <section class="booking-form-section hidden" id="bookingFormSection">
+        <div class="wrapper">
+            <div class="section-header">
+                <span class="en-title">Form</span>
+                <span class="jp-title">お客様情報の入力</span>
+            </div>
+
+            <div class="booking-form-inner" id="bookingFormInner">
+                <!-- 選択日時表示 -->
+                <div class="selected-slot-display">
+                    <span class="slot-label">選択中の日時</span>
+                    <span class="slot-value" id="selectedSlotDisplay">-</span>
+                </div>
+
+                <!-- エラーメッセージ -->
+                <div class="error-msg" id="formError"></div>
+
+                <!-- 予約フォーム -->
+                <form id="reservationForm" novalidate>
+                    <input type="hidden" id="selectedDatetimeInput" name="datetime">
+
+                    <div class="form-group">
+                        <label class="form-label" for="resName">
+                            お名前 <span class="required">必須</span>
+                        </label>
+                        <input
+                            class="form-input"
+                            type="text"
+                            id="resName"
+                            name="name"
+                            placeholder="山田 花子"
+                            autocomplete="name"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="resPhone">
+                            電話番号 <span class="required">必須</span>
+                        </label>
+                        <input
+                            class="form-input"
+                            type="tel"
+                            id="resPhone"
+                            name="phone"
+                            placeholder="090-0000-0000"
+                            autocomplete="tel"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="resMenu">
+                            メニュー <span class="required">必須</span>
+                        </label>
+                        <div class="form-select-wrapper">
+                            <select class="form-select" id="resMenu" name="menu" required>
+                                <option value="">選択してください</option>
+                                <option value="カット">カット</option>
+                                <option value="カラー">カラー</option>
+                                <option value="パーマ">パーマ</option>
+                                <option value="ヘッドスパ">ヘッドスパ</option>
+                                <option value="カット＋カラー">カット＋カラー</option>
+                                <option value="カット＋パーマ">カット＋パーマ</option>
+                                <option value="その他">その他</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="resNotes">備考</label>
+                        <textarea
+                            class="form-textarea"
+                            id="resNotes"
+                            name="notes"
+                            placeholder="アレルギー・ご要望・髪の悩みなど、気になることがあればお気軽にどうぞ。"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        予約を確定する
+                    </button>
+
+                    <p style="text-align:center; font-size:0.78rem; color:var(--text-sub); margin-top:20px; line-height:2;">
+                        送信後のキャンセル・変更はお電話にて承ります。<br>
+                        <a href="tel:0000-00-0000" style="color:var(--accent);">0000-00-0000</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer>
+        <p>&copy; 2024 ROSSO. All rights reserved.</p>
+    </footer>
+
+    <!-- 下部固定ボタン（トップへ戻る） -->
+    <a href="index.html" class="fixed-bottom-btn" style="background-color: var(--text-sub); font-size:0.9rem;">
+        ← トップページへ
+    </a>
+
+    <script src="js/main.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/reservation.js"></script>
+</body>
+</html>
