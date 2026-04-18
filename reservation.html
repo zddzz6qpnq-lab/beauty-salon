@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>オンライン予約 | ROSSO</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;600&family=Zen+Maru+Gothic:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/reservation.css">
+</head>
+<body>
+
+  <!-- ハンバーガーメニュー -->
+  <button class="hamburger-btn" id="hamburgerBtn" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
+  <nav class="nav-overlay" id="navOverlay">
+    <ul class="nav-list">
+      <li><a href="index.html#concept" class="nav-link">Concept</a></li>
+      <li><a href="index.html#menu" class="nav-link">Menu</a></li>
+      <li><a href="index.html#access" class="nav-link">Access</a></li>
+      <li><a href="reservation.html">Reservation</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <a href="index.html" class="logo-text">ROSSO</a>
+  </header>
+
+  <main class="reservation-main">
+    <div class="wrapper">
+
+      <!-- ページタイトル -->
+      <div class="page-title">
+        <span class="en-title">Reservation</span>
+        <span class="jp-title">オンライン予約</span>
+      </div>
+
+      <!-- ステップ表示 -->
+      <div class="steps">
+        <div class="step active" id="step1-indicator">
+          <span class="step-num">1</span>
+          <span class="step-label">日時を選ぶ</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="step2-indicator">
+          <span class="step-num">2</span>
+          <span class="step-label">情報を入力</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="step3-indicator">
+          <span class="step-num">3</span>
+          <span class="step-label">確認・送信</span>
+        </div>
+      </div>
+
+      <!-- STEP 1: カレンダー -->
+      <div class="step-content" id="step1">
+        <h2 class="step-title">予約したい日時を選んでください</h2>
+
+        <!-- 週ナビゲーション -->
+        <div class="calendar-nav">
+          <button class="cal-nav-btn" id="prevWeek">＜ 前の週</button>
+          <span class="cal-week-label" id="weekLabel"></span>
+          <button class="cal-nav-btn" id="nextWeek">次の週 ＞</button>
+        </div>
+
+        <!-- 週カレンダー -->
+        <div class="calendar-container">
+          <div class="calendar-grid" id="calendarGrid">
+            <!-- JSで生成 -->
+          </div>
+        </div>
+
+        <p class="cal-legend">
+          <span class="legend-available">■ 空き</span>
+          <span class="legend-booked">■ 予約済み</span>
+          <span class="legend-closed">■ 営業時間外</span>
+        </p>
+
+        <p id="selectedTimeDisplay" class="selected-time-display" style="display:none;"></p>
+      </div>
+
+      <!-- STEP 2: フォーム -->
+      <div class="step-content hidden" id="step2">
+        <h2 class="step-title">お客様情報を入力してください</h2>
+        <p class="step-sub" id="step2SelectedTime"></p>
+
+        <form id="reservationForm" novalidate>
+          <div class="form-group">
+            <label for="name">お名前 <span class="required">必須</span></label>
+            <input type="text" id="name" name="name" placeholder="山田 花子" required>
+            <span class="error-msg" id="name-error"></span>
+          </div>
+          <div class="form-group">
+            <label for="phone">電話番号 <span class="required">必須</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="090-0000-0000" required>
+            <span class="error-msg" id="phone-error"></span>
+          </div>
+          <div class="form-group">
+            <label for="menu">メニュー <span class="required">必須</span></label>
+            <select id="menu" name="menu" required>
+              <option value="">選択してください</option>
+              <option value="カット">カット</option>
+              <option value="カラー">カラー</option>
+              <option value="パーマ">パーマ</option>
+              <option value="ヘッドスパ">ヘッドスパ</option>
+              <option value="カット＋カラー">カット＋カラー</option>
+              <option value="その他">その他</option>
+            </select>
+            <span class="error-msg" id="menu-error"></span>
+          </div>
+          <div class="form-group">
+            <label for="note">備考・ご要望</label>
+            <textarea id="note" name="note" rows="4" placeholder="初めてご来店の方、ご要望などあればご記入ください"></textarea>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn-back" id="backToStep1">← 日時を選び直す</button>
+            <button type="button" class="btn-next" id="goToStep3">確認画面へ →</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- STEP 3: 確認 -->
+      <div class="step-content hidden" id="step3">
+        <h2 class="step-title">予約内容の確認</h2>
+
+        <div class="confirm-box">
+          <div class="confirm-row"><span class="confirm-label">日時</span><span id="confirm-datetime"></span></div>
+          <div class="confirm-row"><span class="confirm-label">お名前</span><span id="confirm-name"></span></div>
+          <div class="confirm-row"><span class="confirm-label">電話番号</span><span id="confirm-phone"></span></div>
+          <div class="confirm-row"><span class="confirm-label">メニュー</span><span id="confirm-menu"></span></div>
+          <div class="confirm-row"><span class="confirm-label">備考</span><span id="confirm-note"></span></div>
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn-back" id="backToStep2">← 情報を修正する</button>
+          <button type="button" class="btn-submit" id="submitBtn">この内容で予約する</button>
+        </div>
+
+        <div id="submitMsg" class="submit-msg hidden"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrapper">
+      <p class="footer-logo">ROSSO</p>
+      <p class="footer-copy">&copy; 2024 ROSSO All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/reservation.js"></script>
+</body>
+</html>
