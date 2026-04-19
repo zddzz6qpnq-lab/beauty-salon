@@ -4,7 +4,7 @@
  */
 
 // GASエンドポイント（デプロイ後にここを書き換える）
-window.GAS_ENDPOINT = 'YOUR_GAS_ENDPOINT_URL';
+window.GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx1YDNg8oMsSNnoMtxbRiTAIz7uv_36rSzyKLiX_3kRWh3O78a29Bg-jbbu4HS-U-6jyg/exec';
 
 // ===== ステップ管理 =====
 function showStep(stepNum) {
