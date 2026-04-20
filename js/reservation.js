@@ -4,7 +4,7 @@
  */
 
 // GASエンドポイント（デプロイ後にここを書き換える）
-window.GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx1YDNg8oMsSNnoMtxbRiTAIz7uv_36rSzyKLiX_3kRWh3O78a29Bg-jbbu4HS-U-6jyg/exec';
+window.GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzKr9-b3lzHt6D0-KhpwiZs541IEkvko_Z2kMdnWLre-v1-NeSH3_cY-KZPOwjTJWT5Mg/exec';
 
 // ===== ステップ管理 =====
 function showStep(stepNum) {
@@ -74,6 +74,8 @@ async function submitReservation() {
   // GASが未設定の場合はデモ成功
   if (!window.GAS_ENDPOINT || window.GAS_ENDPOINT.includes('YOUR_GAS')) {
     await new Promise(r => setTimeout(r, 1000)); // 疑似遅延
+    const slotKey = `${payload.date} ${payload.time}`;
+    if (!bookedSlots.includes(slotKey)) { bookedSlots.push(slotKey); renderCalendar(); }
     showSuccessMessage(submitMsg, payload.name, payload.date, payload.time);
     return;
   }
@@ -86,6 +88,8 @@ async function submitReservation() {
     const data = await res.json();
 
     if (data.status === 'ok') {
+      const slotKey = `${payload.date} ${payload.time}`;
+      if (!bookedSlots.includes(slotKey)) { bookedSlots.push(slotKey); renderCalendar(); }
       showSuccessMessage(submitMsg, payload.name, payload.date, payload.time);
     } else if (data.status === 'conflict') {
       submitMsg.className = 'submit-msg error';

@@ -3,7 +3,7 @@
  * 管理画面：予約一覧の取得・表示・フィルター
  */
 
-const GAS_ENDPOINT = 'YOUR_GAS_ENDPOINT_URL';
+const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx1YDNg8oMsSNnoMtxbRiTAIz7uv_36rSzyKLiX_3kRWh3O78a29Bg-jbbu4HS-U-6jyg/exec';
 
 // ===== デモデータ =====
 function generateDemoData() {

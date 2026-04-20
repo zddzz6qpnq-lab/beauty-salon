@@ -7,7 +7,7 @@
 // ===== 設定 =====
 const BUSINESS_START_HOUR = 10; // 営業開始時間
 const BUSINESS_END_HOUR = 19;   // 営業終了時間（最終受付18時＝18:00セルまで表示）
-const CLOSED_DAY = 2;           // 定休日: 0=日, 1=月, 2=火（火曜定休）
+const CLOSED_DAY = 1;           // 定休日: 0=日, 1=月, 2=火（月曜定休）
 const SLOT_DURATION = 60;       // 予約単位（分）
 
 // ===== 状態管理 =====

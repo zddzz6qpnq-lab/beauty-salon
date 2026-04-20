@@ -213,7 +213,7 @@ iframe {
 }
 .bg-night {
   position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background-image: url('../images/reserve-bg.jpg');
+  background-image: url('../images/hero3.jpg');
   background-size: cover; background-position: center;
   background-attachment: fixed; z-index: -2;
 }
@@ -262,19 +262,32 @@ footer {
 }
 .footer-copy { font-size: 0.75rem; color: var(--text-sub); }
 
-/* --- 下部固定LINEボタン --- */
-.fixed-line-btn {
+/* --- 下部固定ナビ --- */
+.bottom-nav {
   position: fixed; bottom: 20px; left: 50%;
   transform: translateX(-50%);
-  background-color: var(--line-green);
-  color: #fff; padding: 15px 40px;
-  border-radius: 50px; font-size: 1rem;
-  font-weight: bold; z-index: 100;
-  box-shadow: 0 5px 20px rgba(6,199,85,0.4);
-  white-space: nowrap;
-  transition: 0.3s;
+  width: 90%; max-width: 600px;
+  display: flex; gap: 10px; z-index: 999;
 }
-.fixed-line-btn:hover { transform: translateX(-50%) translateY(-3px); opacity: 1; }
+.nav-btn-tel {
+  flex: 1;
+  background-color: #fff; color: var(--text-main);
+  border: 2px solid var(--accent); border-radius: 50px;
+  text-align: center; padding: 15px 0;
+  font-weight: bold; font-family: var(--font-heading);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s;
+}
+.nav-btn-line {
+  flex: 2;
+  background-color: var(--line-green); color: #fff;
+  border-radius: 50px; text-align: center; padding: 15px 0;
+  font-weight: bold; font-family: var(--font-heading);
+  letter-spacing: 0.05em;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 10px rgba(6,199,85,0.3); transition: 0.3s;
+}
+.nav-btn-tel:hover, .nav-btn-line:hover { transform: translateY(-2px); opacity: 1; }
 
 /* --- レスポンシブ --- */
 @media (max-width: 768px) {

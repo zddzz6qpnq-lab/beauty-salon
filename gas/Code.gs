@@ -48,11 +48,14 @@ function getBookedSlots() {
     const row = data[i];
     const status = row[6]; // G列: ステータス
     if (status === 'cancelled') continue;
-    const dateStr = row[0]; // A列: 日付 (YYYY-MM-DD)
-    const timeStr = row[1]; // B列: 時間 (HH:00)
-    if (dateStr && timeStr) {
-      bookedSlots.push(`${dateStr} ${timeStr}`);
-    }
+    const rawDate = row[0]; // A列: 日付
+    const rawTime = row[1]; // B列: 時間 (HH:00)
+    if (!rawDate || !rawTime) continue;
+    // Sheetsが日付をDateオブジェクトに変換するので文字列に戻す
+    const dateStr = (rawDate instanceof Date)
+      ? Utilities.formatDate(rawDate, 'Asia/Tokyo', 'yyyy-MM-dd')
+      : String(rawDate);
+    bookedSlots.push(`${dateStr} ${rawTime}`);
   }
 
   return jsonResponse({ status: 'ok', bookedSlots });
