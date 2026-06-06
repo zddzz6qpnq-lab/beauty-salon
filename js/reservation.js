@@ -3,8 +3,6 @@
  * 3ステップ予約フォーム制御 + GAS送信
  */
 
-// GASエンドポイント（デプロイ後にここを書き換える）
-window.GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzKr9-b3lzHt6D0-KhpwiZs541IEkvko_Z2kMdnWLre-v1-NeSH3_cY-KZPOwjTJWT5Mg/exec';
 
 // ===== ステップ管理 =====
 function showStep(stepNum) {
@@ -53,7 +51,7 @@ function fillConfirm() {
   document.getElementById('confirm-note').textContent = document.getElementById('note').value.trim() || 'なし';
 }
 
-// ===== GASに送信 =====
+// ===== Supabaseに送信 =====
 async function submitReservation() {
   const submitBtn = document.getElementById('submitBtn');
   const submitMsg = document.getElementById('submitMsg');
@@ -61,45 +59,41 @@ async function submitReservation() {
   submitBtn.textContent = '送信中...';
   submitMsg.className = 'submit-msg hidden';
 
-  const payload = {
-    action: 'reserve',
-    date: selectedDateTime.date,
-    time: selectedDateTime.time,
-    name: document.getElementById('name').value.trim(),
-    phone: document.getElementById('phone').value.trim(),
-    menu: document.getElementById('menu').value,
-    note: document.getElementById('note').value.trim(),
-  };
-
-  // GASが未設定の場合はデモ成功
-  if (!window.GAS_ENDPOINT || window.GAS_ENDPOINT.includes('YOUR_GAS')) {
-    await new Promise(r => setTimeout(r, 1000)); // 疑似遅延
-    const slotKey = `${payload.date} ${payload.time}`;
-    if (!bookedSlots.includes(slotKey)) { bookedSlots.push(slotKey); renderCalendar(); }
-    showSuccessMessage(submitMsg, payload.name, payload.date, payload.time);
-    return;
-  }
+  const date = selectedDateTime.date;
+  const time = selectedDateTime.time;
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const menu = document.getElementById('menu').value;
+  const note = document.getElementById('note').value.trim() || null;
 
   try {
-    const res = await fetch(window.GAS_ENDPOINT, {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    });
-    const data = await res.json();
+    // ダブルブッキングチェック
+    const { data: existing } = await window.sb
+      .from('reservations')
+      .select('id')
+      .eq('date', date)
+      .eq('time', time)
+      .neq('status', 'cancelled')
+      .maybeSingle();
 
-    if (data.status === 'ok') {
-      const slotKey = `${payload.date} ${payload.time}`;
-      if (!bookedSlots.includes(slotKey)) { bookedSlots.push(slotKey); renderCalendar(); }
-      showSuccessMessage(submitMsg, payload.name, payload.date, payload.time);
-    } else if (data.status === 'conflict') {
+    if (existing) {
       submitMsg.className = 'submit-msg error';
       submitMsg.textContent = 'ご希望の日時はすでに埋まってしまいました。別の日時をお選びください。';
       submitMsg.classList.remove('hidden');
       submitBtn.disabled = false;
       submitBtn.textContent = 'この内容で予約する';
-    } else {
-      throw new Error(data.message || '不明なエラー');
+      return;
     }
+
+    const { error } = await window.sb
+      .from('reservations')
+      .insert([{ date, time, name, phone, menu, note, status: 'confirmed' }]);
+
+    if (error) throw error;
+
+    const slotKey = `${date} ${time}`;
+    if (!bookedSlots.includes(slotKey)) { bookedSlots.push(slotKey); renderCalendar(); }
+    showSuccessMessage(submitMsg, name, date, time);
   } catch (e) {
     submitMsg.className = 'submit-msg error';
     submitMsg.textContent = '送信に失敗しました。お手数ですがLINEまたはお電話にてご予約ください。';

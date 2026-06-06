@@ -151,34 +151,18 @@ function selectSlot(dateStr, timeStr, dateObj) {
   if (typeof enableStep2Button === 'function') enableStep2Button();
 }
 
-// ===== GASから予約済みスロットを取得 =====
+// ===== Supabaseから予約済みスロットを取得 =====
 async function fetchBookedSlots() {
-  const endpoint = window.GAS_ENDPOINT;
-  if (!endpoint || endpoint.includes('YOUR_GAS')) {
-    // デモモード：ランダムに予約済みを生成
-    const demo = [];
-    const today = new Date();
-    for (let i = 0; i < 7; i++) {
-      const d = new Date(today);
-      d.setDate(d.getDate() + i);
-      const dateStr = formatDate(d);
-      for (let h = BUSINESS_START_HOUR; h < BUSINESS_END_HOUR; h++) {
-        if (Math.random() < 0.25) {
-          demo.push(`${dateStr} ${String(h).padStart(2,'0')}:00`);
-        }
-      }
-    }
-    bookedSlots = demo;
-    renderCalendar();
-    return;
-  }
-
   try {
-    const res = await fetch(`${endpoint}?action=getSlots`);
-    const data = await res.json();
-    bookedSlots = data.bookedSlots || [];
+    const { data, error } = await window.sb
+      .from('reservations')
+      .select('date, time')
+      .neq('status', 'cancelled');
+
+    if (error) throw error;
+    bookedSlots = (data || []).map(r => `${r.date} ${r.time}`);
   } catch (e) {
-    console.warn('GAS接続エラー（デモモードで動作中）:', e);
+    console.warn('Supabase接続エラー:', e);
     bookedSlots = [];
   }
   renderCalendar();
